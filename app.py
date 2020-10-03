@@ -40,4 +40,5 @@ def show_all_satellites():
 @app.route("/satellites/<int:id>")
 def show_one_satellite(id):
 
-    satellite = Satellite.query.get_or_404(id)
+    satellite = Satellite.query.filter_by(norad_num=id).first()
+    print("******************", satellite.satellite_name)
