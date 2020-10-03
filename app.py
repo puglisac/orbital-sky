@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Satellite
+from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///satellites_db'
@@ -38,3 +39,7 @@ def show_all_playlists():
 
     satellites = Satellite.query.all()
     print(satellites)
+
+@app.route('/satellites/api/<int:lat>/<int:lgn>/<int:alt>/<int:rad>')
+def get_visible_satellites(lat, lgn, alt, rad):
+    
