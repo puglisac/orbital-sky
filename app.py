@@ -1,17 +1,21 @@
-from flask import Flask, jsonify
+from flask import Flask, request, redirect, flash, render_template, jsonify, make_response
 from flask_debugtoolbar import DebugToolbarExtension
-
+from dotenv import load_dotenv
 from models import db, connect_db, Satellite
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///satellites_db'
+
+load_dotenv()
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 
 connect_db(app)
 db.create_all()
 
-app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
 # however, if you want to turn it off, you can uncomment this line:
@@ -25,10 +29,10 @@ debug = DebugToolbarExtension(app)
 def root():
     """Homepage"""
 
-    return
+    return render_template('app.html')
 
 
-############################Hi this is a change##################################################
+##############################################################################
 
 
 @app.route("/satellites")
