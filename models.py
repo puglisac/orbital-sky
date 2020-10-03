@@ -8,8 +8,6 @@ db = SQLAlchemy()
 class Satellite(db.Model):
     """Satellite."""
 
-    # ADD THE NECESSARY CODE HERE
-
     __tablename__ = "satellites"
 
     norad_num = db.Column(db.Integer,
