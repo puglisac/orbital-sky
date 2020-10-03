@@ -33,7 +33,7 @@ class Satellite(db.Model):
                                )
     type_of_orbit = db.Column(db.String
                               )
-    Longitude_of_geo = db.Column(db.Float
+    longitude_of_geo = db.Column(db.Float
                                  )
     perigee = db.Column(db.Float
                         )
@@ -43,14 +43,14 @@ class Satellite(db.Model):
                              )
     inclination = db.Column(db.Float
                             )
-    period = db.Column(db.Float
-                       )
+    sat_period = db.Column(db.Float
+                           )
     launch_mass = db.Column(db.Float
                             )
     dry_mass = db.Column(db.String
                          )
-    power = db.Column(db.String
-                      )
+    sat_power = db.Column(db.String
+                          )
     launch_date = db.Column(db.DateTime
                             )
     life_expectancy = db.Column(db.Float
@@ -79,7 +79,7 @@ class Satellite(db.Model):
                         )
     source5 = db.Column(db.String
                         )
-    source5 = db.Column(db.String
+    source6 = db.Column(db.String
                         )
 
 

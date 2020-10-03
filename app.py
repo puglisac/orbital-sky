@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Satellite
@@ -23,18 +23,21 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def root():
-    """Homepage: redirect to /playlists."""
+    """Homepage"""
 
     return
 
 
 ##############################################################################
-# Playlist routes
 
 
 @app.route("/satellites")
-def show_all_playlists():
-    """Return a list of playlists."""
+def show_all_satellites():
 
     satellites = Satellite.query.all()
-    print(satellites)
+
+
+@app.route("/satellites/<int:id>")
+def show_one_satellite(id):
+
+    satellite = Satellite.query.get_or_404(id)
