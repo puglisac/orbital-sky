@@ -3,8 +3,9 @@
 from flask import Flask, jsonify
 import requests
 from models import db, connect_db, Satellite
+from dotenv import load_dotenv
 import os
-
+load_dotenv()
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
 NEWS_BASE_URL = "https://spaceflightnewsapi.net/api/v1/articles?search="
