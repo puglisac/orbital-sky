@@ -5,18 +5,16 @@ import requests
 from models import db, connect_db, Satellite
 import os
 
-<< << << < HEAD
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
 NEWS_BASE_URL = "https://spaceflightnewsapi.net/api/v1/articles?search="
-# api_key="U9J35D-GT6QWZ-FPTKCN-4KD4"
 api_key = os.getenv("n2yo_api_key")
-== == == =
+
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
-api_key = "U9J35D-GT6QWZ-FPTKCN-4KD4"
-# api_key = os.getenv("api_key")
->>>>>> > 280fa52bc3114a61c54c589b92d207a49a0039ab
+
+api_key = os.getenv("api_key")
+
 
 # wiki strings
 WIKI_BASE_URL = "https://en.wikipedia.org/w/api.php?action=parse&page="
