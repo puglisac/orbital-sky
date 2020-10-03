@@ -1,14 +1,14 @@
 """Makes a call using sat name and returns the wiki page content"""
 
-from flask import Flask
+from flask import Flask, jsonify
 import requests
 from models import db, connect_db, Satellite
 import os
 
 #n2yo strings
 N2YO_BASE_URL= "https://www.n2yo.com/rest/v1/satellite/"
-# api_key="U9J35D-GT6QWZ-FPTKCN-4KD4"
-api_key = os.getenv("api_key")
+api_key="U9J35D-GT6QWZ-FPTKCN-4KD4"
+# api_key = os.getenv("api_key")
 
 #wiki strings
 WIKI_BASE_URL = "https://en.wikipedia.org/w/api.php?action=parse&page="
@@ -44,6 +44,24 @@ def vis_sat_ids(lat, lng, alt=0, rad=70):
     sats = requests.get(f"{N2YO_BASE_URL}/above/{str(lat)}/{str(lng)}/{str(alt)}/{str(rad)}/0/&apiKey={api_key}").json()["above"]
     sat_ids = [sat["satid"] for sat in sats]
     return sat_ids
+
+def vis_sat_data(lat, lng, alt=0, rad=70):
+    """Returns List of Sattelite Norad IDs if Visible from specified location"""
+    sats = requests.get(f"{N2YO_BASE_URL}/above/{str(lat)}/{str(lng)}/{str(alt)}/{str(rad)}/0/&apiKey={api_key}").json()["above"]
+    json = [serialize_sat_data(sat) for sat in sats]
+    return json
+
+def serialize_sat_data(sat):
+    return {
+        'sat_location': {
+            "satlat": sat["satlat"],
+            "satlng": sat["satlng"],
+            "satalt": sat["satalt"]},
+        'sat_info': {"satid": sat["satid"],
+            "satname": sat["satname"],
+            "launchDate": sat["launchDate"]
+            }
+        }
 
 def filter_sats(search_by, search_term):
     sat = Satellite.query.filter_by(search_by=search_term).first()
