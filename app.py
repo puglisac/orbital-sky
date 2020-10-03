@@ -42,4 +42,4 @@ def show_all_playlists():
 
 @app.route('/satellites/api/<int:lat>/<int:lgn>/<int:alt>/<int:rad>')
 def get_visible_satellites(lat, lgn, alt, rad):
-    
+    return vis_sat_ids(lat, lng, alt, rad)
