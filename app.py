@@ -1,18 +1,23 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, request, redirect, flash, render_template, jsonify, make_response
 from flask_debugtoolbar import DebugToolbarExtension
-
+from dotenv import load_dotenv
 from models import db, connect_db, Satellite
+
 from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///satellites_db'
+
+load_dotenv()
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 
 connect_db(app)
 db.create_all()
 
-app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
 # however, if you want to turn it off, you can uncomment this line:
@@ -24,21 +29,25 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def root():
-    """Homepage: redirect to /playlists."""
+    """Homepage"""
 
-    return
+    return render_template('app.html')
 
 
 ##############################################################################
-# Playlist routes
 
 
 @app.route("/satellites")
-def show_all_playlists():
-    """Return a list of playlists."""
-
+def show_all_satellites():
     satellites = Satellite.query.all()
     print(satellites)
+
+
+
+@app.route("/satellites/<int:id>")
+def show_one_satellite(id):
+    satellite = Satellite.query.get(id)
+
 
 @app.route('/satellites/api/<int:lat>/<int:lgn>/<int:alt>/<int:rad>')
 def get_visible_satellites(lat, lgn, alt, rad):
