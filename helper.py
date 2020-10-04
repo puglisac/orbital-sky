@@ -46,19 +46,19 @@ def call_html(search_term):
         "parse"]["text"]
 
 
-def vis_sat_ids(lat, lng, alt=0, rad=70, cat=0):
+def vis_sat_ids(lat, lng, alt=0, cat=0):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
     sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
+        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/25/{cat}/&apiKey={api_key}").json()
     sat_ids = [sat["satid"] for sat in sats]
     return sat_ids
 
 
-def vis_sat_data(lat, lng, alt=0, rad=70, cat=0):
+def vis_sat_data(lat, lng, alt=0, cat=0):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
     try:
         sats = requests.get(
-            f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
+            f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/25/{cat}/&apiKey={api_key}").json()
         return sats
     except:
         raise Exception("API error")
