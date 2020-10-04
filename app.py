@@ -46,7 +46,7 @@ def show_all_satellites():
 def show_one_satellite(id):
     satellite = Satellite.query.get(id)
 
-@app.route('/satellites/api/<int:lat>/<int:lng>/<int:alt>/<int:rad>')
+@app.route('/satellites/api/<lat>/<lng>/<alt>/<rad>')
 def get_visible_satellites(lat, lng, alt, rad):
     json = vis_sat_data(lat, lng, alt, rad)
-    return json
+    return make_response(jsonify(json), 200)

@@ -11,12 +11,6 @@ N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
 NEWS_BASE_URL = "https://spaceflightnewsapi.net/api/v1/articles?search="
 api_key = os.getenv("n2yo_api_key")
 
-# n2yo strings
-N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
-
-api_key = os.getenv("api_key")
-
-
 # wiki strings
 WIKI_BASE_URL = "https://en.wikipedia.org/w/api.php?action=parse&page="
 FORMAT_PARAMETERS_HTML = "&format=json&prop=text&formatversion=2"
@@ -62,21 +56,23 @@ def vis_sat_ids(lat, lng, alt=0, rad=70):
 def vis_sat_data(lat, lng, alt=0, rad=70):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
     sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{str(lat)}/{str(lng)}/{str(alt)}/{str(rad)}/0/&apiKey={api_key}").json()["above"]
+        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/0/&apiKey={api_key}").json()["above"]
     json = [serialize_sat_data(sat) for sat in sats]
     return json
 
 
 def serialize_sat_data(sat):
     return {
-        'sat_location': {
+        "sat_location": {
             "satlat": sat["satlat"],
             "satlng": sat["satlng"],
-            "satalt": sat["satalt"]},
-        'sat_info': {"satid": sat["satid"],
-                     "satname": sat["satname"],
-                     "launchDate": sat["launchDate"]
-                     }
+            "satalt": sat["satalt"]
+            },
+        "sat_info": {
+            "satid": sat["satid"],
+            "satname": sat["satname"],
+            "launchDate": sat["launchDate"]
+            }
     }
 
 
