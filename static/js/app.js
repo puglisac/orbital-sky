@@ -5,6 +5,13 @@ wwd.addLayer(new WorldWind.BMNGOneImageLayer());
 wwd.addLayer(new WorldWind.BMNGLandsatLayer());
 wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
+const satelliteLayer = new WorldWind.RenderableLayer('Satellites');
+wwd.addLayer(satelliteLayer);
+// wwd.addEventListener('click', (event) => {
+//   let picks = wwd.pick(event.x, event.y);
+//   console.log(picks)
+//   console.log(event);
+// })
 
 function getUserLocation() {
 
@@ -18,7 +25,7 @@ function getUserLocation() {
 
     generatePlacemark(userData);
     const flyIn = new WorldWind.GoToAnimator(wwd);
-    const userPosition = new WorldWind.Position(userData.lat, userData.long, 2500000);
+    const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
     flyIn.goTo(userPosition);
 
     const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}/25`);
@@ -38,15 +45,13 @@ function getUserLocation() {
 
   function errorCallback(err) {
     console.log(err);
-    alert('Something went wrong. Please try again.')
+    alert('Something went wrong. Please try again and be sure to allow your location to be used.')
   }
 
   navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 }
 
 function generatePlacemark(data) {
-  const placemarkLayer = new WorldWind.RenderableLayer("Placemark");
-  wwd.addLayer(placemarkLayer);
   const placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
   placemarkAttributes.imageOffset = new WorldWind.Offset(
     WorldWind.OFFSET_FRACTION, 0.3,
@@ -62,5 +67,9 @@ function generatePlacemark(data) {
   const placemark = new WorldWind.Placemark(position, true, placemarkAttributes);
   placemark.label = data.label === 'Your Location' ? `${data.label}` : '';
   placemark.alwaysOnTop = true;
-  placemarkLayer.addRenderable(placemark);
+  const listener = new WorldWind.ClickRecognizer(placemark, (e) => {
+    console.log('hi');
+  })
+  console.log(listener)
+  satelliteLayer.addRenderable(placemark);
 }
