@@ -6,7 +6,7 @@ from categories import categories
 from werkzeug.exceptions import BadRequestKeyError
 
 
-from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, serialize_sat_data, satellite_news
+from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, satellite_news
 import os
 
 app = Flask(__name__)
