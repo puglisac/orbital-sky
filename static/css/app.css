@@ -5,11 +5,13 @@
   height: 100%;
   border: lightblue 1px solid;
 }
+
 .pic {
   display: block;
   width: 100%;
   height: auto;
 }
+
 .overlay {
   position: absolute;
   bottom: 0;
@@ -25,6 +27,11 @@
   padding: 20px;
   text-align: center;
 }
+
 .overlay-box:hover .overlay {
   opacity: 1;
+}
+
+#logo-text {
+  font-family: 'Fugaz One', cursive;
 }
