@@ -7,11 +7,6 @@ wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
 const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
-// wwd.addEventListener('click', (event) => {
-//   let picks = wwd.pick(event.x, event.y);
-//   console.log(picks)
-//   console.log(event);
-// })
 
 function getUserLocation() {
 	async function successCallback(position) {
@@ -27,8 +22,12 @@ function getUserLocation() {
 		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
 		flyIn.goTo(userPosition);
 
+		generatePlacemark(userData);
+		const flyIn = new WorldWind.GoToAnimator(wwd);
+		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
+		flyIn.goTo(userPosition);
 		const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
-		// console.log(resp.data);
+		console.log(resp.data);
 		resp.data.above.forEach((sat) => {
 			const satData = {
 				alt: sat.satalt,
@@ -40,11 +39,6 @@ function getUserLocation() {
 			};
 			generatePlacemark(satData);
 		});
-	}
-
-	function errorCallback(err) {
-		console.log(err);
-		alert("Something went wrong. Please try again and be sure to allow your location to be used.");
 	}
 
 	navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -71,12 +65,5 @@ function generatePlacemark(data) {
 	const placemark = new WorldWind.Placemark(position, true, placemarkAttributes);
 	placemark.label = data.label === "Your Location" ? `${data.label}` : "";
 	placemark.alwaysOnTop = true;
-	console.log(placemark);
-	function clicked(rec) {
-		console.log("hi");
-	}
-	const recognizer = new WorldWind.GestureRecognizer(placemark, [ clicked ]);
-	// recognizer.addListener(clicked);
-
 	satelliteLayer.addRenderable(placemark);
 }
