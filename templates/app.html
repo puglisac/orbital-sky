@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="background-image">
 
-<div class="container h-100">
-  <div class="row h-100 align-items-center">
-    <div class="col-md-8">
-      <canvas id="globe" height="500" width="500">
-        Your browser does not support HTML5 Canvas.
-      </canvas>
-    </div>
-    <div class="col-md-4">
-      Legend Goes Here
-      <button id="location-btn" class="btn btn-primary">Click Here to See What's Up</button>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-md-8">
+        <canvas id="globe" height="500" width="500">
+          Your browser does not support HTML5 Canvas.
+        </canvas>
+      </div>
+      <div class="col-md-4">
+        Legend Goes Here
+        <button id="location-btn" class="btn btn-primary">Click Here to See What's Up</button>
+      </div>
     </div>
   </div>
+  <script src="{{ url_for('static', filename='node_modules/@nasaworldwind/worldwind/build/dist/worldwind.min.js')}}"></script>
+  <script src="/static/js/app.js" defer></script>
+
 </div>
-<script src="{{ url_for('static', filename='node_modules/@nasaworldwind/worldwind/build/dist/worldwind.min.js')}}"></script>
-<script src="/static/js/app.js" defer></script>
 {% endblock %}
