@@ -1,3 +1,7 @@
+body {
+  background-image: url(../images/background-img.jpg);
+}
+
 .overlay-box {
   position: relative;
   width: 50%;
@@ -5,11 +9,13 @@
   height: 100%;
   border: lightblue 1px solid;
 }
+
 .pic {
   display: block;
   width: 100%;
   height: auto;
 }
+
 .overlay {
   position: absolute;
   bottom: 0;
@@ -25,6 +31,21 @@
   padding: 20px;
   text-align: center;
 }
+
 .overlay-box:hover .overlay {
   opacity: 1;
+}
+
+#logo-text {
+  font-family: 'Fugaz One', cursive;
+}
+
+#about {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#about-text-box {
+  color: white;
+  border-radius: 1%;
+  background: rgba(60, 72, 72, 0.9);
 }
