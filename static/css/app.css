@@ -4,10 +4,12 @@ body {
 }
 
 #sat-list {
-  height: 60vh;
+  height: 453px;
   overflow-y: scroll;
-  cursor: pointer;
+}
 
+#sat-list li {
+  cursor: pointer;
 }
 
 .overlay-box {
