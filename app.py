@@ -84,3 +84,8 @@ def show_news():
                            pages=pages,
                            size=size
                            )
+
+@app.route('/about')
+def show_about():
+    """Route to show About Team page"""
+    return render_template('about.html')
