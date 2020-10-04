@@ -1,6 +1,10 @@
-body {
-  background-image: url(../images/background-img.jpg);
-  font-family: 'Roboto Condensed', sans-serif;
+#sat-list {
+  height: 453px;
+  overflow-y: scroll;
+}
+
+#sat-list li {
+  cursor: pointer;
 }
 
 .overlay-box {
@@ -49,4 +53,10 @@ body {
 
 .modal-content {
   background-color: lightgrey;
+}
+
+body {
+  background-image: url(../images/background-img.jpg);
+  font-family: 'Roboto Condensed', sans-serif;
+  background-repeat: no-repeat;
 }
