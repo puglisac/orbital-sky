@@ -64,21 +64,6 @@ def vis_sat_data(lat, lng, alt=0, cat=0):
         raise Exception("API error")
 
 
-def serialize_sat_data(sat):
-    return {
-        "sat_location": {
-            "satlat": sat["satlat"],
-            "satlng": sat["satlng"],
-            "satalt": sat["satalt"]
-        },
-        "sat_info": {
-            "satid": sat["satid"],
-            "satname": sat["satname"],
-            "launchDate": sat["launchDate"]
-        }
-    }
-
-
 def filter_sats(search_by, search_term):
     sat = Satellite.query.filter_by(search_by=search_term).first()
     return sat

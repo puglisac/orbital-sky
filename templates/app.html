@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="background-image">
+
 
   <div class="container h-100">
     <div class="row vh-100 align-items-center">
@@ -24,5 +24,49 @@
   <script src="{{ url_for('static', filename='node_modules/@nasaworldwind/worldwind/build/dist/worldwind.min.js')}}"></script>
   <script src="/static/js/app.js" defer></script>
 
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sat-modal">
+    Satellite Modal
+  </button>
+
+
+  <div class="modal fade" id="sat-modal" tabindex="-1" role="dialog" aria-labelledby="sat-modal" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Satellite Name</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table style="width: 100%">
+          <colgroup>
+             <col span="1" style="width: 35%;">
+             <col span="1" style="width: 65%;">
+          </colgroup>
+          <tbody>
+              <tr>
+                  <td><b>Country of Origin:</b></td>
+                  <td>Canada</td>
+              </tr>
+              <tr>
+                <td><b>Launch Date:</b></td>
+                <td>2/22/2014</td>
+              </tr>
+              <tr>
+                <td><b>Category:</b></td>
+                <td>Weather</td>
+              </tr>
+              <tr>
+                <td><b>Current Coordinates:</b></td>
+                <td>43.038902°, -87.906471°</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

@@ -1,22 +1,40 @@
-document.querySelector('#location-btn').addEventListener('click', getUserLocation)
+document.querySelector("#location-btn").addEventListener("click", getUserLocation);
 
 const wwd = new WorldWind.WorldWindow("globe");
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
 wwd.addLayer(new WorldWind.BMNGLandsatLayer());
 wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
-const satelliteLayer = new WorldWind.RenderableLayer('Satellites');
+const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
+	async function successCallback(position) {
+		const userData = {
+			alt: position.coords.altitude ? position.coords.altitude : 0,
+			label: "Your Location",
+			lat: position.coords.latitude,
+			long: position.coords.longitude
+		};
 
-  async function successCallback(position) {
-    const userData = {
-      alt: position.coords.altitude ? position.coords.altitude : 0,
-      label: 'Your Location',
-      lat: position.coords.latitude,
-      long: position.coords.longitude,
-    }
+		generatePlacemark(userData);
+		const flyIn = new WorldWind.GoToAnimator(wwd);
+		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
+		flyIn.goTo(userPosition);
+		const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
+		console.log(resp.data);
+		resp.data.above.forEach((sat) => {
+			const satData = {
+				alt: sat.satalt,
+				category: sat.category || "Uncategorized",
+				icon: sat.icon || "uncategorized",
+				label: `${sat.satname}`,
+				lat: sat.satlat,
+				long: sat.satlng
+			};
+			generatePlacemark(satData);
+		});
+	}
 
     generatePlacemark(userData);
     const flyIn = new WorldWind.GoToAnimator(wwd);

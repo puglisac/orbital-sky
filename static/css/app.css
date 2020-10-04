@@ -57,3 +57,7 @@ body {
   border-radius: 1%;
   background: rgba(60, 72, 72, 0.9);
 }
+
+.modal-content {
+  background-color: lightgrey;
+}
