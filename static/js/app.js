@@ -36,6 +36,11 @@ function getUserLocation() {
 		});
 	}
 
+	function errorCallback(err) {
+		console.log(err);
+		alert("Something went wrong. Please try again and be sure to allow your location to be used.");
+	}
+
 	navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 }
 
