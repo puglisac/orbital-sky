@@ -24,6 +24,7 @@ function getUserLocation() {
     flyIn.goTo(userPosition);
     const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
     console.log(resp.data)
+    createSatList(resp.data.above);
     resp.data.above.forEach((sat) => {
       const satData = {
         alt: sat.satalt,
@@ -59,7 +60,27 @@ function generatePlacemark(data) {
     : `static/images/${data.icon}.svg`;
   const position = new WorldWind.Position(data.lat, data.long, data.alt);
   const placemark = new WorldWind.Placemark(position, true, placemarkAttributes);
-  placemark.label = data.label === 'Your Location' ? `${data.label}` : '';
+  placemark.label = data.label;
   placemark.alwaysOnTop = true;
   satelliteLayer.addRenderable(placemark);
 }
+
+function createSatList(data) {
+  const satList = document.querySelector('#sat-list');
+  data.forEach((sat) => {
+    const li = document.createElement('li');
+    li.textContent = sat.satname;
+    li.className='list-group-item list-group-item-action';
+    li.addEventListener('click', () => {
+      renderSatModal(sat.satid);
+    })
+    li.setAttribute('data-toggle', 'modal');
+    li.setAttribute('data-target', 'sat-modal')
+    satList.append(li);
+  })
+}
+
+async function renderSatModal(id) {
+  const resp = await axios.get(`/satellites/${id}`);
+  console.log(resp);
+};
