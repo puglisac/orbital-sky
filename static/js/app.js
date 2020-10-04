@@ -7,11 +7,6 @@ wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
 const satelliteLayer = new WorldWind.RenderableLayer('Satellites');
 wwd.addLayer(satelliteLayer);
-// wwd.addEventListener('click', (event) => {
-//   let picks = wwd.pick(event.x, event.y);
-//   console.log(picks)
-//   console.log(event);
-// })
 
 function getUserLocation() {
 
@@ -27,8 +22,7 @@ function getUserLocation() {
     const flyIn = new WorldWind.GoToAnimator(wwd);
     const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
     flyIn.goTo(userPosition);
-
-    const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}/25`);
+    const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
     console.log(resp.data)
     resp.data.above.forEach((sat) => {
       const satData = {
@@ -67,9 +61,5 @@ function generatePlacemark(data) {
   const placemark = new WorldWind.Placemark(position, true, placemarkAttributes);
   placemark.label = data.label === 'Your Location' ? `${data.label}` : '';
   placemark.alwaysOnTop = true;
-  const listener = new WorldWind.ClickRecognizer(placemark, (e) => {
-    console.log('hi');
-  })
-  console.log(listener)
   satelliteLayer.addRenderable(placemark);
 }
