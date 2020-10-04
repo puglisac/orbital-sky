@@ -4,17 +4,20 @@
 
 
   <div class="container h-100">
-    <div class="row h-100 align-items-center">
-      <div class="col-md-12 mb-2 d-flex justify-content-center">
+    <div class="row vh-100 align-items-center">
+      <div class="col-md-12 mb-4 d-flex justify-content-center">
         <button id="location-btn" class="btn btn-primary mx-auto">Click Here to See What's Up</button>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8 mb-auto">
         <canvas id="globe" height="500" width="500">
           Your browser does not support HTML5 Canvas.
         </canvas>
       </div>
-      <div class="col-md-4">
-        List will be here
+      <div class="col-md-4 mb-auto">
+        <ul class="list-group">
+          <li class="text-center list-group-item">Nearby Satellites</li>
+        </ul>
+        <ul id="sat-list" class="list-group"></ul>
       </div>
     </div>
   </div>
