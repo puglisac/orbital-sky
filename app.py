@@ -6,20 +6,20 @@ from categories import categories
 from werkzeug.exceptions import BadRequestKeyError
 
 
-from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, serialize_sat_data, satellite_news
+from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, satellite_news
 import os
 
 app = Flask(__name__)
 
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 
 connect_db(app)
-db.create_all()
+
 
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
