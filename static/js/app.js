@@ -10,6 +10,7 @@ wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
 	async function successCallback(position) {
+		$("#location-btn").prepend(`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`)
 		const userData = {
 			alt: position.coords.altitude ? position.coords.altitude : 0,
 			label: "Your Location",
@@ -80,6 +81,7 @@ function createSatList(data) {
 		li.setAttribute("data-toggle", "modal");
 		li.setAttribute("data-target", "sat-modal");
 		satList.append(li);
+		$(".spinner-border").remove()
 	});
 }
 
