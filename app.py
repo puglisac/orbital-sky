@@ -46,8 +46,6 @@ def show_all_satellites():
 @app.route("/satellites/<int:id>")
 def show_one_satellite(id):
     satellite = Satellite.query.get(id)
-    
-
 
 @app.route('/satellites/api/<lat>/<lng>/<alt>/<rad>')
 def get_visible_satellites(lat, lng, alt, rad): 

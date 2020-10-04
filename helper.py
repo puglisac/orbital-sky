@@ -12,11 +12,6 @@ N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
 NEWS_BASE_URL = "https://spaceflightnewsapi.net/api/v1/articles?search="
 api_key = os.getenv("n2yo_api_key")
 
-# n2yo strings
-N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
-
-
-
 # wiki strings
 WIKI_BASE_URL = "https://en.wikipedia.org/w/api.php?action=parse&page="
 FORMAT_PARAMETERS_HTML = "&format=json&prop=text&formatversion=2"
@@ -71,14 +66,16 @@ def vis_sat_data(lat, lng, alt=0, rad=70, cat=0):
 
 def serialize_sat_data(sat):
     return {
-        'sat_location': {
+        "sat_location": {
             "satlat": sat["satlat"],
             "satlng": sat["satlng"],
-            "satalt": sat["satalt"]},
-        'sat_info': {"satid": sat["satid"],
-                     "satname": sat["satname"],
-                     "launchDate": sat["launchDate"]
-                     }
+            "satalt": sat["satalt"]
+            },
+        "sat_info": {
+            "satid": sat["satid"],
+            "satname": sat["satname"],
+            "launchDate": sat["launchDate"]
+            }
     }
 
 
