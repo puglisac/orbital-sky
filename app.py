@@ -13,13 +13,13 @@ app = Flask(__name__)
 
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 
 connect_db(app)
-db.create_all()
+
 
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
