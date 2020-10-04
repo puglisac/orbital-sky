@@ -21,29 +21,32 @@ FORMAT_PARAMETERS_WIKITEXT = "&format=json&prop=wikitext&formatversion=2"
 def call_wikitext(search_term):
     """Returns response in WikiText format. If response is error, returns list of USA Satellites"""
 
-    resp = requests.get(
-        f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_WIKITEXT}").json()
+    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_WIKITEXT}").json()
     if "error" in resp:
-        return requests.get(f"{WIKI_BASE_URL}List_of_USA_satellites{FORMAT_PARAMETERS_WIKITEXT}").json()["parse"]["wikitext"]
+        try:
+            search=parse_for_sat(search_term)
+            return search['parse']
+        except:
+            sat_page= requests.get(f"{WIKI_BASE_URL}List_of_USA_satellites{FORMAT_PARAMETERS_WIKITEXT}").json()
+            return sat_page['parse']
     else:
-        return parse_for_sat(resp['parse']['wikitext'], search_term)
+        return resp['parse']
 
 
-def parse_for_sat(response, search_term):
-    sat_count = response.count('atellite')
-    if sat_count >= 3:
-        return response
-    else:
-        return call_html(f"{search_term}_(satellite)")
+def parse_for_sat(search_term):
+    """append satellite to search"""
+    resp=call_wikitext(f"{search_term}+(satellite)")
+    if "error" in resp:
+            raise Exception("no results")
+    return resp['parse']
 
 # In case we wanna use the html response. Both look a lil hairy.
 
 
 def call_html(search_term):
     """Returns response in HTML format"""
-
-    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()[
-        "parse"]["text"]
+    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()
+    return resp
 
 
 def vis_sat_ids(lat, lng, alt=0, cat=0):
@@ -78,7 +81,49 @@ def satellite_news(page):
 def satellite_tle(norad_id):
     """returns satellite TLE data given a norad_id"""
     try:
-        sat = requests.get(f"{N2YO_BASE_URL}/tle/{norad_id}&apiKey={api_key}")
+        sat = requests.get(f"{N2YO_BASE_URL}/tle/{norad_id}&apiKey={api_key}").json()
         return sat
     except:
         raise Exception("API error")
+
+
+
+def serialize_satellite(sat):
+
+    return {
+        "satellite_name": sat.satellite_name,
+        "country_of_origin": sat.country_of_origin, 
+        "country_of_owner": sat.country_of_owner,
+        "sat_owner": sat.sat_owner,
+        "users": sat.users,
+        "purpose": sat.purpose,
+        "purpose_detail": sat.purpose_detail,
+        "class_of_orbit": sat.class_of_orbit,
+        "type_of_orbit": sat.type_of_orbit,
+        "longitude_of_geo": sat.longitude_of_geo,
+        "perigee": sat.perigee,
+        "apogee": sat.apogee,
+        "eccentricity": sat.eccentricity,
+        "inclination": sat.inclination,
+        "sat_period": sat.sat_period,
+        "launch_mass": sat.launch_mass,
+        "dry_mass": sat.dry_mass,
+        "sat_power": sat.sat_power,
+        "launch_date": sat.launch_date,
+        "life_expectancy": sat.life_expectancy,
+        "contractor": sat.contractor,
+        "contractor_country": sat.contractor_country,
+        "launch_site": sat.launch_site,
+        "launch_vehicle": sat.launch_vehicle,
+        "cospar_num": sat.cospar_num,
+        "norad_num": sat.norad_num,
+        "comments": sat.comments,
+        "orbital_data_source": sat.orbital_data_source,
+        "sources": [sat.source1, sat.source2, sat.source3, sat.source4, sat.source5, sat.source6]
+    }
+
+def search_wiki(id):
+    name = satellite_tle(id)['info']['satname']
+    concat_name=name.replace(" ", "+").lower()
+    print("********", concat_name)
+    return call_wikitext(concat_name)
