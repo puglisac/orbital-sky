@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, flash, render_template, jsonify, mak
 from flask_debugtoolbar import DebugToolbarExtension
 from dotenv import load_dotenv
 from models import db, connect_db, Satellite
+from categories import categories
 
 from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, serialize_sat_data
 import os
@@ -40,13 +41,20 @@ def root():
 @app.route("/satellites")
 def show_all_satellites():
     satellites = Satellite.query.all()
-    print(satellites)
+
 
 @app.route("/satellites/<int:id>")
 def show_one_satellite(id):
     satellite = Satellite.query.get(id)
+    
 
-@app.route('/satellites/api/<int:lat>/<int:lng>/<int:alt>/<int:rad>')
-def get_visible_satellites(lat, lng, alt, rad):
-    json = vis_sat_data(lat, lng, alt, rad)
-    return json
+
+@app.route('/satellites/api/<lat>/<lng>/<alt>/<rad>')
+def get_visible_satellites(lat, lng, alt, rad): 
+    if not request.json['category']:
+        sats = vis_sat_data(lat, lng, alt, rad)
+        return sats
+    else:
+        cat=categories[request.json['category']]   
+        sats = vis_sat_data(lat, lng, alt, rad, cat)
+        return sats

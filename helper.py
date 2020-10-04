@@ -5,6 +5,7 @@ import requests
 from models import db, connect_db, Satellite
 from dotenv import load_dotenv
 import os
+from categories import categories
 load_dotenv()
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
@@ -14,7 +15,6 @@ api_key = os.getenv("n2yo_api_key")
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
 
-api_key = os.getenv("api_key")
 
 
 # wiki strings
@@ -51,20 +51,22 @@ def call_html(search_term):
         "parse"]["text"]
 
 
-def vis_sat_ids(lat, lng, alt=0, rad=70):
+def vis_sat_ids(lat, lng, alt=0, rad=70, cat=0):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
     sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{str(lat)}/{str(lng)}/{str(alt)}/{str(rad)}/0/&apiKey={api_key}").json()["above"]
+        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
     sat_ids = [sat["satid"] for sat in sats]
     return sat_ids
 
 
-def vis_sat_data(lat, lng, alt=0, rad=70):
+def vis_sat_data(lat, lng, alt=0, rad=70, cat=0):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
-    sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{str(lat)}/{str(lng)}/{str(alt)}/{str(rad)}/0/&apiKey={api_key}").json()["above"]
-    json = [serialize_sat_data(sat) for sat in sats]
-    return json
+    try: 
+        sats = requests.get(
+        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
+        return sats
+    except:
+        raise Exception("API error")    
 
 
 def serialize_sat_data(sat):
@@ -96,4 +98,4 @@ def satellite_tle(norad_id):
         sat = requests.get(f"{N2YO_BASE_URL}/tle/{norad_id}&apiKey={api_key}")
         return sat
     except:
-        return "request error"
+        raise Exception("API error")
