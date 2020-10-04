@@ -73,13 +73,12 @@ function createSatList(data) {
     li.addEventListener('click', () => {
       renderSatModal(sat.satid);
     })
-    li.setAttribute('data-toggle', 'modal');
-    li.setAttribute('data-target', 'sat-modal')
     satList.append(li);
   })
 }
 
 async function renderSatModal(id) {
+  $('#sat-modal').modal('show');
   const resp = await axios.get(`/satellites/${id}`);
   console.log(resp);
 };
