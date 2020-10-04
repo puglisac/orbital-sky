@@ -80,6 +80,7 @@ class Satellite(db.Model):
     source6 = db.Column(db.String
                         )
 
+    
 
 def connect_db(app):
     """Connect to database."""

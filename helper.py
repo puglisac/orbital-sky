@@ -82,3 +82,40 @@ def satellite_tle(norad_id):
         return sat
     except:
         raise Exception("API error")
+
+
+
+def serialize_satellite(sat):
+    
+    return {
+        "satellite_name": sat.satellite_name,
+        "country_of_origin": sat.country_of_origin, 
+        "country_of_owner": sat.country_of_owner,
+        "sat_owner": sat.sat_owner,
+        "users": sat.users,
+        "purpose": sat.purpose,
+        "purpose_detail": sat.purpose_detail,
+        "class_of_orbit": sat.class_of_orbit,
+        "type_of_orbit": sat.type_of_orbit,
+        "longitude_of_geo": sat.longitude_of_geo,
+        "perigee": sat.perigee,
+        "apogee": sat.apogee,
+        "eccentricity": sat.eccentricity,
+        "inclination": sat.inclination,
+        "sat_period": sat.sat_period,
+        "launch_mass": sat.launch_mass,
+        "dry_mass": sat.dry_mass,
+        "sat_power": sat.sat_power,
+        "launch_date": sat.launch_date,
+        "life_expectancy": sat.life_expectancy,
+        "contractor": sat.contractor,
+        "contractor_country": sat.contractor_country,
+        "launch_site": sat.launch_site,
+        "launch_vehicle": sat.launch_vehicle,
+        "cospar_num": sat.cospar_num,
+        "norad_num": sat.norad_num,
+        "comments": sat.comments,
+        "orbital_data_source": sat.orbital_data_source,
+        "sources": [sat.source1, sat.source2, sat.source3, sat.source4, sat.source5, sat.source6]
+    }
+

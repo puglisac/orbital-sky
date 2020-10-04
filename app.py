@@ -6,7 +6,7 @@ from categories import categories
 from werkzeug.exceptions import BadRequestKeyError
 
 
-from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, satellite_news
+from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, satellite_news, serialize_satellite
 import os
 
 app = Flask(__name__)
@@ -45,9 +45,14 @@ def show_all_satellites():
     satellites = Satellite.query.all()
 
 
-@app.route("/satellites/<int:id>")
-def show_one_satellite(id):
-    satellite = Satellite.query.get(id)
+@app.route("/satellites/api/<int:id>")
+def get_one_satellite(id):
+    sat = Satellite.query.get(id)
+    try:
+        serialized_sat=serialize_satellite(sat)
+    except AttributeError:
+        serialized_sat="not found"
+    return jsonify(satellite=serialized_sat)
 
 
 @app.route('/satellites/api/<lat>/<lng>/<alt>')
