@@ -1,0 +1,13 @@
+.news-card-img {
+	max-height: 200px;
+}
+.news-card-title {
+	max-height: 150px;
+}
+.page-item a {
+	color: #343a40;
+}
+.page-item.active .page-link {
+	background-color: #343a40;
+	color: white;
+}
