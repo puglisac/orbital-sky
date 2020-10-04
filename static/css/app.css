@@ -1,5 +1,6 @@
 body {
   background-image: url(../images/background-img.jpg);
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .overlay-box {
@@ -38,10 +39,6 @@ body {
 
 #logo-text {
   font-family: 'Fugaz One', cursive;
-}
-
-#about {
-  font-family: 'Montserrat', sans-serif;
 }
 
 #about-text-box {
