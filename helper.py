@@ -22,20 +22,20 @@ def call_wikitext(search_term):
     """Returns response in WikiText format. If response is error, returns list of USA Satellites"""
 
     resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_WIKITEXT}").json()
+
     if "error" in resp:
         try:
             search=parse_for_sat(search_term)
             return search['parse']
         except:
-            sat_page= requests.get(f"{WIKI_BASE_URL}List_of_USA_satellites{FORMAT_PARAMETERS_WIKITEXT}").json()
-            return sat_page['parse']
+            return "no results"
     else:
         return resp['parse']
 
 
 def parse_for_sat(search_term):
     """append satellite to search"""
-    resp=call_wikitext(f"{search_term}+(satellite)")
+    resp=search_with_sat(f"{search_term}+(satellite)")
     if "error" in resp:
             raise Exception("no results")
     return resp['parse']
@@ -43,10 +43,10 @@ def parse_for_sat(search_term):
 # In case we wanna use the html response. Both look a lil hairy.
 
 
-def call_html(search_term):
+def search_with_sat(search_term):
     """Returns response in HTML format"""
     resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()
-    return resp
+    return resp['parse']
 
 
 def vis_sat_ids(lat, lng, alt=0, cat=0):
@@ -125,5 +125,5 @@ def serialize_satellite(sat):
 def search_wiki(id):
     name = satellite_tle(id)['info']['satname']
     concat_name=name.replace(" ", "+").lower()
-    print("********", concat_name)
+
     return call_wikitext(concat_name)

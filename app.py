@@ -75,7 +75,6 @@ def get_visible_satellites_categories(lat, lng, alt, cat):
             count+=1
         except: 
             sat['category']="unknown" 
-        print(count)
     return sats
 
 
