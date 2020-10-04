@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container h-100">
+  <div class="row h-100 align-items-center">
+    <ul >
+        {% for item in news %}
+            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+        {% endfor %}
+        </ul>
+  </div>
+  <div >
+    <nav>
+        <ul id="page-select" class="pagination">
+            <li class="page-item {%if session.curr_page==1%}disabled{%endif%}">
+                <a href="/satellites/news?page={{session.curr_page-1}}" class="page-link">Previous</a>
+            </li>
+            {%for page in pages%} {%if page>0 and page
+            <=size%} <li class="page-item {%if session.curr_page == page%} active{%endif%}"><a class="page-link " href="/satellites/news?page={{page}}">{{page}}</a></li>
+                {%endif%} {%endfor%}
+                <li class="page-item {%if session.curr_page==size%}disabled{%endif%}">
+                    <a class="page-link " href="/satellites/news?page={{session.curr_page+1}}">Next</a>
+                </li>
+        </ul>
+    </nav>
+</div>
+</div>
+<script src="{{ url_for('static', filename='node_modules/@nasaworldwind/worldwind/build/dist/worldwind.min.js')}}"></script>
+<script src="/static/js/app.js" defer></script>
+{% endblock %}
