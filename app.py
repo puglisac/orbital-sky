@@ -48,6 +48,7 @@ def show_all_satellites():
 @app.route("/satellites/api/<int:id>")
 def get_one_satellite(id):
     sat = Satellite.query.get(id)
+    
     try:
         serialized_sat=serialize_satellite(sat)
     except AttributeError:
