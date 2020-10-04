@@ -63,14 +63,16 @@ def get_visible_satellites(lat, lng, alt, rad):
 
 @app.route("/satellites/news")
 def show_news():
-
+    """route to show satellite news stories"""
     try:
         """saves current page to session"""
         session['curr_page'] = int(request.args['page'])
     except BadRequestKeyError:
         session['curr_page'] = 1
+    """get current page and make request for news stories"""
     page = session['curr_page']
     stories = satellite_news(page)
+    """pagination variables to pass into template"""
     size = int(stories['totalPages'])
     if page > size:
         page = size

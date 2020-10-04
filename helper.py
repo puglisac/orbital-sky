@@ -85,7 +85,7 @@ def filter_sats(search_by, search_term):
 
 
 def satellite_news(page):
-    """returns a list of satellite news stories"""
+    """returns a dictionary of satellite news stories"""
     stories = requests.get(f"{NEWS_BASE_URL}satellite&page={page}").json()
     return stories
 
