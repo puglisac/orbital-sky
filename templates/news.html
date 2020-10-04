@@ -6,14 +6,15 @@
   <div class="row align-items-center">
 
         {% for item in news %}
-        <div class="card m-5 news-card" style="width: 18rem">
-            <img src={{item.featured_image}} class="card-img-top news-card-img" alt="...">
-            <div class="card-body">
-              <h5 class="card-title news-card-title">{{item.title}}</h5>
 
-              <a href={{item.url}} target="_blank" class="btn btn-dark">Read story</a>
+        <div class="overlay-box m-3">
+            <img src={{item.featured_image}} alt="Card image cap" class="pic">
+            <div class="overlay">
+                <h5>{{item.title}}</h5>
+                <a href="{{item.url}}" class="btn btn-outline-primary text-light">Read Story</a>
             </div>
-          </div>
+        </div>
+
         {% endfor %}
 
   </div>
