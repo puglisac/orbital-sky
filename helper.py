@@ -42,7 +42,7 @@ def parse_for_sat(response, search_term):
 def call_html(search_term):
     """Returns response in HTML format"""
 
-    resp = requests.get(f"{BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()[
+    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()[
         "parse"]["text"]
 
 

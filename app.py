@@ -50,7 +50,7 @@ def show_one_satellite(id):
     satellite = Satellite.query.get(id)
 
 
-@app.route('/satellites/api/<lat>/<lng>/<alt>/')
+@app.route('/satellites/api/<lat>/<lng>/<alt>')
 def get_visible_satellites(lat, lng, alt):
     """returns a dictionary of satellites  within 25 mile radius of a location """
     sats = vis_sat_data(lat, lng, alt)
