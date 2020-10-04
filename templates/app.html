@@ -5,15 +5,15 @@
 
   <div class="container h-100">
     <div class="row vh-100 align-items-center">
-      <div class="col-md-12 mb-4 d-flex justify-content-center">
-        <button id="location-btn" class="btn btn-primary mx-auto">Click Here to See What's Up</button>
+      <div class="col-lg-12 mb-4 d-flex justify-content-center">
+        <button id="location-btn" class="btn btn-dark btn-lg btn-block mx-auto">Click Here to See What's Up</button>
       </div>
-      <div class="col-md-8 mb-auto">
+      <div class="col-lg-8 mb-auto">
         <canvas id="globe" height="500" width="500">
           Your browser does not support HTML5 Canvas.
         </canvas>
       </div>
-      <div class="col-md-4 mb-auto">
+      <div class="col-lg-4 mb-auto">
         <ul class="list-group">
           <li class="text-center list-group-item">Nearby Satellites</li>
         </ul>
@@ -24,17 +24,12 @@
   <script src="{{ url_for('static', filename='node_modules/@nasaworldwind/worldwind/build/dist/worldwind.min.js')}}"></script>
   <script src="/static/js/app.js" defer></script>
 
-  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sat-modal">
-    Satellite Modal
-  </button>
-
-
   <div class="modal fade" id="sat-modal" tabindex="-1" role="dialog" aria-labelledby="sat-modal" aria-hidden="true">
 
     <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Satellite Name</h3>
+        <h3 class="modal-title" id="sat-name"></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -48,19 +43,19 @@
           <tbody>
               <tr>
                   <td><b>Country of Origin:</b></td>
-                  <td>Canada</td>
+                  <td id="sat-country"></td>
               </tr>
               <tr>
                 <td><b>Launch Date:</b></td>
-                <td>2/22/2014</td>
+                <td id="sat-launch-date"></td>
               </tr>
               <tr>
                 <td><b>Category:</b></td>
-                <td>Weather</td>
+                <td id="sat-category"></td>
               </tr>
               <tr>
                 <td><b>Current Coordinates:</b></td>
-                <td>43.038902°, -87.906471°</td>
+                <td id="sat-coords"></td>
               </tr>
           </tbody>
         </table>
