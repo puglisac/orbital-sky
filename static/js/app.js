@@ -22,7 +22,6 @@ function getUserLocation() {
     const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
     flyIn.goTo(userPosition);
     const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
-    console.log(resp.data)
     createSatList(resp.data.above);
     resp.data.above.forEach((sat) => {
       const satData = {
