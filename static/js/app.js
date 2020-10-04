@@ -21,11 +21,6 @@ function getUserLocation() {
 		const flyIn = new WorldWind.GoToAnimator(wwd);
 		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
 		flyIn.goTo(userPosition);
-
-		generatePlacemark(userData);
-		const flyIn = new WorldWind.GoToAnimator(wwd);
-		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
-		flyIn.goTo(userPosition);
 		const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
 		console.log(resp.data);
 		resp.data.above.forEach((sat) => {
