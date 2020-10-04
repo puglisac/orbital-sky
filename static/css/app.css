@@ -43,3 +43,9 @@ body {
 #about {
   font-family: 'Montserrat', sans-serif;
 }
+
+#about-text-box {
+  color: white;
+  border-radius: 1%;
+  background: rgba(60, 72, 72, 0.9);
+}
