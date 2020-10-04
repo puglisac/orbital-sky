@@ -56,12 +56,12 @@ def vis_sat_ids(lat, lng, alt=0, rad=70, cat=0):
 
 def vis_sat_data(lat, lng, alt=0, rad=70, cat=0):
     """Returns List of Sattelite Norad IDs if Visible from specified location"""
-    try: 
+    try:
         sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
+            f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/{rad}/{cat}/&apiKey={api_key}").json()
         return sats
     except:
-        raise Exception("API error")    
+        raise Exception("API error")
 
 
 def serialize_sat_data(sat):
@@ -70,12 +70,12 @@ def serialize_sat_data(sat):
             "satlat": sat["satlat"],
             "satlng": sat["satlng"],
             "satalt": sat["satalt"]
-            },
+        },
         "sat_info": {
             "satid": sat["satid"],
             "satname": sat["satname"],
             "launchDate": sat["launchDate"]
-            }
+        }
     }
 
 
@@ -85,8 +85,9 @@ def filter_sats(search_by, search_term):
 
 
 def satellite_news(page):
-    """returns a list of satellite news stories"""
-    stories = requests.get(f"{NEWS_BASE_URL}satellite&page={page}")
+    """returns a dictionary of satellite news stories"""
+    stories = requests.get(f"{NEWS_BASE_URL}satellite&page={page}").json()
+    return stories
 
 
 def satellite_tle(norad_id):
