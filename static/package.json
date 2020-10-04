@@ -10,5 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@nasaworldwind/worldwind": "^0.10.0"
-  }
+  },
+  "devDependencies": {}
 }
