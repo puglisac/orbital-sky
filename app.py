@@ -79,4 +79,8 @@ def show_news():
     if page < 1:
         page = 1
     pages = range(page-5, page+5)
-    return render_template('news.html', news=stories['docs'], pages=pages, size=size)
+    return render_template('news.html',
+                           news=stories['docs'],
+                           pages=pages,
+                           size=size,
+                           image=stories['featured_image'])
