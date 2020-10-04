@@ -17,25 +17,24 @@ function getUserLocation() {
 			long: position.coords.longitude
 		};
 
-		generatePlacemark(userData);
-		const flyIn = new WorldWind.GoToAnimator(wwd);
-		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
-		flyIn.goTo(userPosition);
-		const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
-		console.log(resp.data);
-		createSatList(resp.data.above);
-		resp.data.above.forEach((sat) => {
-			const satData = {
-				alt: sat.satalt,
-				category: sat.category || "Uncategorized",
-				icon: sat.icon || "uncategorized",
-				label: `${sat.satname}`,
-				lat: sat.satlat,
-				long: sat.satlng
-			};
-			generatePlacemark(satData);
-		});
-	}
+    generatePlacemark(userData);
+    const flyIn = new WorldWind.GoToAnimator(wwd);
+    const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
+    flyIn.goTo(userPosition);
+    const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
+    createSatList(resp.data.above);
+    resp.data.above.forEach((sat) => {
+      const satData = {
+        alt: sat.satalt,
+        category: sat.category || 'Uncategorized',
+        icon: sat.icon || 'uncategorized',
+        label: `${sat.satname}`,
+        lat: sat.satlat,
+        long: sat.satlng,
+      }
+      generatePlacemark(satData);
+    });
+  };
 
 	function errorCallback(err) {
 		console.log(err);
