@@ -82,5 +82,5 @@ def show_news():
     return render_template('news.html',
                            news=stories['docs'],
                            pages=pages,
-                           size=size,
-                           image=stories['featured_image'])
+                           size=size
+                           )
