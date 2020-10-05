@@ -10,9 +10,7 @@ const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
-	$("#location-btn").prepend(
-		`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
-	);
+	buttonClicked();
 	async function successCallback(position) {
 		const userData = {
 			alt: position.coords.altitude ? position.coords.altitude : 0,
@@ -39,12 +37,7 @@ function getUserLocation() {
 			};
 			generatePlacemark(satData);
 		});
-		$(".spinner-border").remove();
-		locationBtn.removeEventListener("click", getUserLocation);
-		locationBtn.addEventListener("click", () => {
-			window.location.reload();
-		});
-		locationBtn.textContent = "Start Over";
+		dataLoaded();
 	}
 
 	function errorCallback(err) {
@@ -119,4 +112,20 @@ async function renderSatModal(sat) {
 			additionalInfo.appendChild(tr);
 		}
 	}
+}
+
+function buttonClicked() {
+	locationBtn.innerText = "";
+	$("#location-btn").prepend(
+		`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
+	);
+	locationBtn.removeEventListener("click", getUserLocation);
+}
+
+function dataLoaded() {
+	$(".spinner-border").remove();
+	locationBtn.addEventListener("click", () => {
+		window.location.reload();
+	});
+	locationBtn.textContent = "Start Over";
 }
