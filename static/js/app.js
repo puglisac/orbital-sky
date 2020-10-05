@@ -89,6 +89,9 @@ function createSatList(data) {
 
 async function renderSatModal(sat) {
 	$("#sat-modal").modal("show");
+	$("#sat-name").append(
+		`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
+	);
 	const additionalInfo = document.querySelector("#additional-info");
 	additionalInfo.innerHTML = "";
 	const resp = await axios.get(`/satellites/api/${sat.satid}`);
