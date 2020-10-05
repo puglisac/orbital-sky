@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 from models import db, connect_db, Satellite
 from categories import categories
 from werkzeug.exceptions import BadRequestKeyError
-
-
 from helper import call_wikitext, parse_for_sat, vis_sat_ids, filter_sats, vis_sat_data, satellite_news, serialize_satellite, search_wiki
 import os
 
@@ -19,8 +17,6 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 
 connect_db(app)
-
-
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
 # however, if you want to turn it off, you can uncomment this line:
