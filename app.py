@@ -39,30 +39,6 @@ def root():
 
 ##############################################################################
 
-
-@app.route("/satellites")
-def show_all_satellites():
-    satellites = Satellite.query.all()
-
-
-@app.route("/satellites/api/<int:id>")
-def get_one_satellite(id):
-    """returns satellite data from database and results from wiki api"""
-    sat = Satellite.query.get(id)
-    wiki = search_wiki(id)
-    try:
-        serialized_sat=serialize_satellite(sat)
-    except AttributeError:
-        serialized_sat="not found"
-    return jsonify(satellite=serialized_sat, wiki=wiki)
-
-
-@app.route('/satellites/api/<lat>/<lng>/<alt>')
-def get_visible_satellites(lat, lng, alt):
-    """returns a dictionary of satellites  within 25 mile radius of a location """
-    sats = vis_sat_data(lat, lng, alt)
-    return sats
-
 @app.route('/satellites/api/<lat>/<lng>/<alt>/<cat>')
 def get_visible_satellites_categories(lat, lng, alt, cat):
     """returns a dictionary of satellites in a specified category within 25 mile radius of a location """
@@ -76,7 +52,6 @@ def get_visible_satellites_categories(lat, lng, alt, cat):
         except: 
             sat['category']="unknown" 
     return sats
-
 
 
 @app.route("/satellites/news")
@@ -107,3 +82,23 @@ def show_news():
 def show_about():
     """Route to show About Team page"""
     return render_template('about.html')
+
+############################### api routes ###############################################
+
+@app.route("/satellites/api/<int:id>")
+def get_one_satellite(id):
+    """returns satellite data from database and results from wiki api"""
+    sat = Satellite.query.get(id)
+    wiki = search_wiki(id)
+    try:
+        serialized_sat=serialize_satellite(sat)
+    except AttributeError:
+        serialized_sat="not found"
+    return jsonify(satellite=serialized_sat, wiki=wiki)
+
+
+@app.route('/satellites/api/<lat>/<lng>/<alt>')
+def get_visible_satellites(lat, lng, alt):
+    """returns a dictionary of satellites  within 25 mile radius of a location """
+    sats = vis_sat_data(lat, lng, alt)
+    return sats
