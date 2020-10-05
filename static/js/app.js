@@ -1,5 +1,5 @@
-const button = document.querySelector("#location-btn").addEventListener("click", getUserLocation);
-
+const button = document.querySelector("#location-btn");
+button.addEventListener("click", getUserLocation);
 const wwd = new WorldWind.WorldWindow("globe");
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
 wwd.addLayer(new WorldWind.BMNGLandsatLayer());
@@ -9,11 +9,11 @@ const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
-	button.removeEventListener("click", getUserLocation);
+	changeButton();
+	$("#location-btn").prepend(
+		`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
+	);
 	async function successCallback(position) {
-		$("#location-btn").prepend(
-			`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
-		);
 		const userData = {
 			alt: position.coords.altitude ? position.coords.altitude : 0,
 			label: "Your Location",
@@ -85,10 +85,21 @@ function createSatList(data) {
 		li.setAttribute("data-target", "sat-modal");
 		satList.append(li);
 		$(".spinner-border").remove();
+		button.innerText = "Reset";
+		button.addEventListener("click", refreshPage);
 	});
 }
 
 async function renderSatModal(id) {
 	const resp = await axios.get(`/satellites/${id}`);
 	console.log(resp);
+}
+
+function changeButton() {
+	button.removeEventListener("click", getUserLocation);
+	button.innerText = "";
+}
+
+function refreshPage() {
+	location.reload();
 }
