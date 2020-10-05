@@ -1,4 +1,4 @@
-document.querySelector("#location-btn").addEventListener("click", getUserLocation);
+const button = document.querySelector("#location-btn").addEventListener("click", getUserLocation);
 
 const wwd = new WorldWind.WorldWindow("globe");
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
@@ -9,8 +9,11 @@ const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
+	button.removeEventListener("click", getUserLocation);
 	async function successCallback(position) {
-		$("#location-btn").prepend(`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`)
+		$("#location-btn").prepend(
+			`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`
+		);
 		const userData = {
 			alt: position.coords.altitude ? position.coords.altitude : 0,
 			label: "Your Location",
@@ -18,24 +21,24 @@ function getUserLocation() {
 			long: position.coords.longitude
 		};
 
-    generatePlacemark(userData);
-    const flyIn = new WorldWind.GoToAnimator(wwd);
-    const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
-    flyIn.goTo(userPosition);
-    const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
-    createSatList(resp.data.above);
-    resp.data.above.forEach((sat) => {
-      const satData = {
-        alt: sat.satalt,
-        category: sat.category || 'Uncategorized',
-        icon: sat.icon || 'uncategorized',
-        label: `${sat.satname}`,
-        lat: sat.satlat,
-        long: sat.satlng,
-      }
-      generatePlacemark(satData);
-    });
-  };
+		generatePlacemark(userData);
+		const flyIn = new WorldWind.GoToAnimator(wwd);
+		const userPosition = new WorldWind.Position(userData.lat, userData.long, 2000000);
+		flyIn.goTo(userPosition);
+		const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
+		createSatList(resp.data.above);
+		resp.data.above.forEach((sat) => {
+			const satData = {
+				alt: sat.satalt,
+				category: sat.category || "Uncategorized",
+				icon: sat.icon || "uncategorized",
+				label: `${sat.satname}`,
+				lat: sat.satlat,
+				long: sat.satlng
+			};
+			generatePlacemark(satData);
+		});
+	}
 
 	function errorCallback(err) {
 		console.log(err);
@@ -81,7 +84,7 @@ function createSatList(data) {
 		li.setAttribute("data-toggle", "modal");
 		li.setAttribute("data-target", "sat-modal");
 		satList.append(li);
-		$(".spinner-border").remove()
+		$(".spinner-border").remove();
 	});
 }
 
