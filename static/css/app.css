@@ -60,3 +60,12 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
   background-repeat: no-repeat;
 }
+
+#location-btn {
+  background-color: #ffb347;
+}
+
+#location-btn:hover {
+  background-color: #4793ff;
+  color: white;
+}
