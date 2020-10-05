@@ -1,11 +1,11 @@
 """Makes a call using sat name and returns the wiki page content"""
 
-from flask import Flask, jsonify
+from flask import Flask
 import requests
-from models import db, connect_db, Satellite
+from models import Satellite
 from dotenv import load_dotenv
 import os
-from categories import categories
+
 load_dotenv()
 # n2yo strings
 N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
@@ -20,9 +20,7 @@ FORMAT_PARAMETERS_WIKITEXT = "&format=json&prop=wikitext&formatversion=2"
 
 def call_wikitext(search_term):
     """Returns response in WikiText format. If response is error, returns list of USA Satellites"""
-
-    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()
-
+    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_WIKITEXT}").json()
     if "error" in resp:
         try:
             search=parse_for_sat(search_term)
@@ -35,30 +33,13 @@ def call_wikitext(search_term):
 
 def parse_for_sat(search_term):
     """append satellite to search"""
-    resp=search_with_sat(f"{search_term}+(satellite)")
+    resp=requests.get(f"{WIKI_BASE_URL}{search_term}+satellite{FORMAT_PARAMETERS_HTML}").json()
     if "error" in resp:
             raise Exception("no results")
     return resp['parse']
 
-# In case we wanna use the html response. Both look a lil hairy.
-
-
-def search_with_sat(search_term):
-    """Returns response in HTML format"""
-    resp = requests.get(f"{WIKI_BASE_URL}{search_term}{FORMAT_PARAMETERS_HTML}").json()
-    return resp['parse']
-
-
-def vis_sat_ids(lat, lng, alt=0, cat=0):
-    """Returns List of Sattelite Norad IDs if Visible from specified location"""
-    sats = requests.get(
-        f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/25/{cat}/&apiKey={api_key}").json()
-    sat_ids = [sat["satid"] for sat in sats]
-    return sat_ids
-
-
 def vis_sat_data(lat, lng, alt=0, cat=0):
-    """Returns List of Sattelite Norad IDs if Visible from specified location"""
+    """Returns List of Sattelites and locations if Visible from specified location"""
     try:
         sats = requests.get(
             f"{N2YO_BASE_URL}/above/{lat}/{lng}/{alt}/25/{cat}/&apiKey={api_key}").json()
@@ -123,7 +104,7 @@ def serialize_satellite(sat):
     }
 
 def search_wiki(id):
+    """performs a wiki search given a satellite NORAD_number"""
     name = satellite_tle(id)['info']['satname']
     concat_name=name.replace(" ", "+").lower()
-
     return call_wikitext(concat_name)
