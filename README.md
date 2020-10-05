@@ -11,6 +11,7 @@ Created for [NASA's 2020 International Space App Challenge](https://www.spaceapp
 
 Check it out here: [https://whats-up-spock.herokuapp.com/](https://whats-up-spock.herokuapp.com/)
 
+[![whats-up-spock](http://img.youtube.com/vi/ZL9mvIPuqts/0.jpg)](http://www.youtube.com/watch?v=ZL9mvIPuqts "What's Up Spock!")
 
 ## Technologies Used
 Frontend

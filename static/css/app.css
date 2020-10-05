@@ -70,3 +70,8 @@ body {
 	background-color: #4793ff;
 	color: white;
 }
+
+#globe {
+	height: 500px;
+	width: 80%;
+}
