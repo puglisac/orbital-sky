@@ -1,4 +1,3 @@
-"""Makes a call using sat name and returns the wiki page content"""
 
 from flask import Flask
 import requests
