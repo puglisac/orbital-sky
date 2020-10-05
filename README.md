@@ -70,9 +70,10 @@ $ source venv/bin/activate
 ```
 3. [Install PostgreSQL](https://www.postgresql.org/download/) if you do not have it.
 
-4. Create a database
+4. Create a database and seed it
 ```
 $ createdb satellites_db
+$ psql satellites_db < satellites_data.sql
 ```
 5. Head over to [N2YO](https://www.n2yo.com/login/) and register for an account
 

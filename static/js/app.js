@@ -1,4 +1,5 @@
-document.querySelector("#location-btn").addEventListener("click", getUserLocation);
+const locationBtn = document.querySelector("#location-btn");
+locationBtn.addEventListener("click", getUserLocation);
 
 const wwd = new WorldWind.WorldWindow("globe");
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
@@ -9,8 +10,8 @@ const satelliteLayer = new WorldWind.RenderableLayer("Satellites");
 wwd.addLayer(satelliteLayer);
 
 function getUserLocation() {
+  $("#location-btn").prepend(`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`)
 	async function successCallback(position) {
-		$("#location-btn").prepend(`<span class="spinner-border spinner-border-sm mr-5" role="status" aria-hidden="true"></span>`)
 		const userData = {
 			alt: position.coords.altitude ? position.coords.altitude : 0,
 			label: "Your Location",
@@ -24,6 +25,7 @@ function getUserLocation() {
     flyIn.goTo(userPosition);
     const resp = await axios.get(`/satellites/api/${userData.lat}/${userData.long}/${userData.alt}`);
     createSatList(resp.data.above);
+
     resp.data.above.forEach((sat) => {
       const satData = {
         alt: sat.satalt,
@@ -35,6 +37,12 @@ function getUserLocation() {
       }
       generatePlacemark(satData);
     });
+    $(".spinner-border").remove()
+    locationBtn.removeEventListener("click", getUserLocation);
+    locationBtn.addEventListener("click", () => {
+      window.location.reload();
+    });
+    locationBtn.textContent = 'Start Over'
   };
 
 	function errorCallback(err) {
@@ -76,16 +84,37 @@ function createSatList(data) {
 		li.textContent = sat.satname;
 		li.className = "list-group-item list-group-item-action";
 		li.addEventListener("click", () => {
-			renderSatModal(sat.satid);
+			renderSatModal(sat);
 		});
 		li.setAttribute("data-toggle", "modal");
 		li.setAttribute("data-target", "sat-modal");
 		satList.append(li);
-		$(".spinner-border").remove()
 	});
 }
 
-async function renderSatModal(id) {
-	const resp = await axios.get(`/satellites/${id}`);
-	console.log(resp);
-}
+async function renderSatModal(sat) {
+  $('#sat-modal').modal('show');
+  const additionalInfo = document.querySelector('#additional-info');
+  additionalInfo.innerHTML = '';
+  const resp = await axios.get(`/satellites/api/${sat.satid}`);
+  const dbData = resp.data.satellite;
+  document.querySelector('#sat-name').textContent = sat.satname;
+  document.querySelector('#sat-coords').textContent = `${sat.satlat}, ${sat.satlng}`
+  document.querySelector('#sat-launch-date').textContent = sat.launchDate;
+  if (dbData !== 'not found') {
+    addData(dbData);
+  }
+
+  function addData(dataSource) {
+    for (const [k, v] of Object.entries(dataSource)) {
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      const td2 = document.createElement('td');
+      td1.innerHTML = `<b>${k}</b>`;
+      td2.innerHTML = `${v}`;
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      additionalInfo.appendChild(tr);
+    } 
+  }
+};
