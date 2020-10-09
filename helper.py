@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 # n2yo strings
-N2YO_BASE_URL = "https://www.n2yo.com/rest/v1/satellite/"
+N2YO_BASE_URL = "https://api.n2yo.com/rest/v1/satellite/"
 NEWS_BASE_URL = "https://spaceflightnewsapi.net/api/v1/articles?search="
 api_key = os.getenv("n2yo_api_key")
 
@@ -72,7 +72,7 @@ def serialize_satellite(sat):
 
     return {
         "satellite_name": sat.satellite_name,
-        "country_of_origin": sat.country_of_origin, 
+        "country_of_origin": sat.country_of_origin,
         "country_of_owner": sat.country_of_owner,
         "sat_owner": sat.sat_owner,
         "users": sat.users,
